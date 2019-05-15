@@ -1,0 +1,8 @@
+__pycache__
+venv
+.idea
+*.egg
+*.eggs
+*.egg-info
+.DS_Store
+.coverage
