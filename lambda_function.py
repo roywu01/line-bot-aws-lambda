@@ -75,6 +75,8 @@ def check_stock(e):
 
     r = twstock.realtime.get(stock_ids)
 
+    response_text = []
+
     for i in stock_ids:
         row = r.get(i)
 
@@ -108,20 +110,22 @@ def check_stock(e):
             ds = 'HIGHEST Today!'
 
         if d is not None:
-            params = {
-                'to': user_id,
-                'messages': [
-                    {
-                        'type': 'text',
-                        'text': d.format(name=name, id=stock_id, ds=ds, price=str(best), low=low, high=high)
-                    }
-                ]
-            }
+            response_text.append(d.format(name=name, id=stock_id, ds=ds, price=str(best), low=low, high=high))
 
-            requests.post(push_msg, headers={
-                'Authorization': 'Bearer {access_token}'.format(access_token=access_token),
-                'Content-Type': 'application/json'
-            }, data=json.dumps(params))
+    params = {
+        'to': user_id,
+        'messages': [
+            {
+                'type': 'text',
+                'text': '\n'.join(response_text)
+            }
+        ]
+    }
+
+    requests.post(push_msg, headers={
+        'Authorization': 'Bearer {access_token}'.format(access_token=access_token),
+        'Content-Type': 'application/json'
+    }, data=json.dumps(params))
 
     return {}
 
