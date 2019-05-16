@@ -79,6 +79,8 @@ def check_stock(e):
 
     for i in stock_ids:
         row = r.get(i)
+        if not row:
+            continue
 
         best = row.get('realtime').get('latest_trade_price')  # string
 
